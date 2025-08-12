@@ -1,0 +1,42 @@
+Embora o laravel ofereça algumas opções de frameworks que automatizam a crianção de sistemas,
+de autenticação, nem sempre o cliente vai querer esse fluxo no projeto dele. a aminha ideia aqui 
+é criar cada etapa do sistema de auatenticação usando apenas recursos fornecidos pelo laravel sem 
+usar Jetstream,breeze ou fortify, assim eu posso moldar sozinho o mue porprio fluxo de autenticação,
+esse porjeto tera o seguinte fluxo 
+
+1 - Usuario digita email e senha 
+2 - Sistemna analisa os dados
+3 - Sistema envia email de confirmação 
+4 - se o cliente usar o link de confirmação ele consegue entrar 
+
+----------------------------------------------------------------------------------
+Funcionalidades iniciais 
+
+1 - criação de Usuario 
+2 - recuperação de senha 
+3 - Perfil: eliminar perfil / editar senha 
+4 - logout 
+
+-----------------------------------------------------------------------
+começando com o basico eu criei a base de dados, testei a comunicação depois 
+crei uma migration para gerar a tabela para guardar os Usuarios do sistema 
+
+----------------------------------------------------------------------------------------
+public function up(): void
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('user_name',30)->unique();
+            $table->string('email', 50)->unique();
+            $table->string('password',200);
+            $table->string('token',100)->nullable();
+            $table->dateTime('email_verified_at')->nullable()->default(null);
+            $table->dateTime('last_login_at')->nullable()->default(null);
+            $table->boolean('active')->nullable()->default(null);
+            $table->dateTime('blocked_until')->nullable()->default(null);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+-----------------------------------------------------------------------------------
+
