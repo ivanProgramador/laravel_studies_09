@@ -1,0 +1,62 @@
+As views desse sistema vão ser baseadas em componentes, ao criara um component no laravel 
+ele cria 2 arquivos em duas pastas diferentes 
+
+1 - na pasta  "app/View/Components/Layouts/MainLayout.php" 
+    Esse ariovo tem uma classe com o mesmo nome do meu layout 
+    essa classe extende a classe Component e todos os seus metodos
+    ela tem o metodo construtor onde eu posso decidir os atributo 
+    que eu quero nome compoente nesse caso eu esclhi ter um 
+    "$PageTitle" então quelquer view que eu gerar, ser uma objeto 
+    dessa classe e heradará essa variável para que possa derfinir o titulo
+    de cada um deles. 
+
+     public function __construct(
+        public string $PageTitle
+    )
+    {
+     
+    }
+
+    Essa classe tem outro metodo importante também , se trata do metdos render(),
+    como o nome já diz ele retorna uma view que seria o segundo arquivo gerado.  
+
+     public function render(): View|Closure|string
+    {
+        return view('components.layouts.main-layout');
+    } 
+  
+2 - na pasta "resources/views/components/main-layout.blade.php" trata de uma view 
+    vazia, porem ela esta ligada ao component isso siginifica que toda vez que eu 
+    acionar meu component ele vai retornar ela,então eu coloquei todas as bibliotecas
+    necessarias nela, todos os recursos dela podems er usados usano o slot que eu estabeleci
+    no body
+
+    ----------------------------------------------------------------------------------------
+    <!DOCTYPE html>
+        <html lang="pt">
+
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>{{ $pageTitle }}</title>
+            <link rel="stylesheet" href="{{ asset('assets/bootstrap/bootstrap.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+            <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/png">
+        </head>
+
+        <body>
+
+            {{ $slot }}
+
+         <script src="{{ asset('assets/bootstrap/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('assets/js/main.js') }}"></script>
+        </body>
+
+        </html> 
+        -----------------------------------------------------------------------------
+
+
+
+
+

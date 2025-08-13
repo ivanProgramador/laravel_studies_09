@@ -1,0 +1,15 @@
+O middleware vai condicionar o acesso as rotas as minhas funções autenticação,
+toda vez que a rota receber uma requisição ela entra no middleware e será analisada
+se ela atender aos resuisitos a reuisição passa apara a pagina principal, se não ela 
+redireciona o usuario para fazer o login novamente.
+
+Diferença entre Auth e Guest 
+
+1 - Auth verifica se exite uma autenticação ele olha ass variveis de sessão e verifica se tem alguem logado
+
+2 - Guest ele serve para controlar acesso de forma geral, por exemplo, não faz sentido uma pessoa 
+    que já fez o login ter acesso  a pagina de login novamente, isso não tem logica, então eu posso
+    controlar o acesso atraves do Guest, qua não é so para conferir se está autenticado, mas tambem 
+    para controllar a regra de negocio.
+
+            
