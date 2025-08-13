@@ -87,6 +87,17 @@ Rodando o seed pra gerar os usuarios
   php artisan db:seed --class UsersTableSeeder
 
 --------------------------------------------------------------------------------
+views 
+ No caso eu vou usar recursos do bootstrap slate onde eu posso baixar templates do bootstrap tematicos´,
+O meu layout será baseado em slots usando o blade component.comando para gerar os components.
+
+php artisan make:component Layouts/MainLayout
+
+
+
+
+
+
 
 
 
