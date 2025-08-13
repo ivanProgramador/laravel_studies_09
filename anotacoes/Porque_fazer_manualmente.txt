@@ -39,4 +39,60 @@ public function up(): void
         });
 
 -----------------------------------------------------------------------------------
+o proximo passo agora é criar o model user para representar a tebela users que eu criei com essa migration 
+
+php artisan make:model User 
+
+o model user possui o metodo all() que serve poara trazer todos os usuarios e mostrar os dados,
+mas como se tarat de um sistemade autenticação nem tudo pode ser mostrado, então para proteger 
+alguns campos eu tem que definir a configuração hidden no model 
+
+
+ protected $hidden = [
+        'password',
+        'remember_token',
+ ];
+
+trata-se de uma configuração parecida com o fillable, mas o fillable serve apara liberar a inserção de  
+usuarios em massa, enquan o hidden serve para proteger campos da serialização. 
+
+  protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+-------------------------------------------------------------------------------
+com o model configurado o porximo passo é confirara a seed para ue possa inserir ao menos um usuario
+para testar o meu sistema.
+
+Dentro da função run do seu seed eu fiz uma loop que cria 3 usuarios na abase de dados, a cada loop 
+ele adiociona um usuario. 
+
+ for($index = 1;$index <= 3; $index++){
+         
+         User::create([
+             'username'=>"user$index",
+             'email'=>"user$index@gmail.com",
+             'password'=>bcrypt('Aa123456'),
+             'email_verified_at'=>Carbon::now(),
+             'active'=>true
+            ]);
+
+------------------------------------------------------------------------------
+Rodando o seed pra gerar os usuarios 
+- checar as importações 
+- checar sempre se o nome dos camops esta compativel com a migration  
+
+  php artisan db:seed --class UsersTableSeeder
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 
