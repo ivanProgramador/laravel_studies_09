@@ -13,6 +13,12 @@ class AuthController extends Controller
     }
 
     
+     public function authenticate():View
+    {
+       return view('Authentication');
+    }
+
+    
 
    
 }
