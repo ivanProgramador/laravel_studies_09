@@ -13,9 +13,9 @@ class AuthController extends Controller
     }
 
     
-     public function authenticate():View
+     public function authenticate()
     {
-       return view('Authentication');
+       echo 'Authenticating ....';
     }
 
     

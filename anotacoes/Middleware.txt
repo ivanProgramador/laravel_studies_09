@@ -12,4 +12,5 @@ Diferença entre Auth e Guest
     controlar o acesso atraves do Guest, qua não é so para conferir se está autenticado, mas tambem 
     para controllar a regra de negocio.
 
+
             
