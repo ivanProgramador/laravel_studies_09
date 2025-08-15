@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,16 +15,15 @@ class AuthController extends Controller
        return view('auth.login');
     }
 
-    
-     public function authenticate(Request $request)
+    public function authenticate(Request $request):RedirectResponse
     {
        //validação do formulario
 
-       $credentials = request()->validate([
-           'username' => 'required|min:3|max:30',
+        $credentials = request()->validate([
+                'username' => 'required|min:3|max:30',
            'password' => 'required|min:8|max:32|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,32}$/',
-       ],
-       [
+            ],
+            [
            'username.required' => 'O campo usuário é obrigatório.',
            'username.min' => 'O campo usuário deve ter no mínimo :min caracteres',
              'username.max' => 'O campo usuário deve ter no máximo :max caracteres',
@@ -32,9 +32,7 @@ class AuthController extends Controller
              'password.max' => 'O campo senha deve ter no máximo :max caracteres',  
              'password.regex' => 'A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um número.',
 
-       ]
-            
-      );
+       ]);
        
        
        //não basta só está cadastrado
@@ -62,7 +60,7 @@ class AuthController extends Controller
           return back()->withInput()->with([
             'invalid_login' => 'Login Invalido !'
           ]);
-       } 
+        } 
 
       //verificar se a senha é valida 
       //O motivo de passar uma mensagem generica é porque se eu mando que o passawor está invalido
@@ -95,18 +93,32 @@ class AuthController extends Controller
     //passado os dados do usuario para o auth para ele pode liberar ass rotas poara usuarios 
     //autenticados
 
-    Auth::login($user);
+          Auth::login($user);
 
-    //redirecionando 
+         //redirecionando 
 
-    return redirect()->intended(route('home'));
+         return redirect()->intended(route('home'));
+}
 
-
-
-      
+  public function logout():RedirectResponse
+    {
+       //logout é uma função que ja existe na classe Auth então eu não preciso coloacar uma codigo mais complexo pra fazer isso 
+       Auth::logout();
+       return redirect()->route('login'); 
     }
+
+
+
 
     
 
    
+  
+
 }
+
+
+
+
+
+
