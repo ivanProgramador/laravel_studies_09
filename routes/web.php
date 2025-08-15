@@ -13,13 +13,16 @@ Route::middleware('guest')->group(function(){
 
 
 //grupo de rotas para usuarios autenticados
-//quando o midleware 'auth' , ele vai testar se exite uma cessão preenchida se não tiver ele vai mandar 
+//quando o midleware 'auth' , ele vai testar se existe uma cessão preenchida se não tiver ele vai mandar 
 //o usuario de volta para a página de login
 
 
 Route::middleware('auth')->group(function(){
-    Route::get('/', function () {return view('dashboard');})->name('dashboard');
-});
+    Route::get('/', function () {
+       echo 'ola mundo';
+    }
+);
+})->name('home');
 
 
 
