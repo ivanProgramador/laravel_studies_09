@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -145,7 +146,15 @@ class AuthController extends Controller
       ]);
 
       
+      //definindo um novov usuario criando um topken de email
       
+      $user = new User();
+      $user->username = $request->username;
+      $user->email = $request->email;
+      $user->password = bcrypt($request->password);
+      $user->token = Str::random(64); 
+
+
 
    } 
 
