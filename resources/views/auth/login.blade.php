@@ -31,20 +31,18 @@
 
                         <div class="row mt-4">
                             
-                            
-                            {{-- 
                                  <div class="col">
                                   <div class="mb-3">
-                                     <a href="#">Não tenho conta de usuário</a>
+                                     <a href="{{ route('register') }}">Não tenho conta de usuário</a>
                                   </div>
-                                  <div>
-                                     <a href="#">Esqueci a minha senha</a>
+                                {{-- 
+                                   <div>
+                                       <a href="#">Esqueci a minha senha</a>
+                                    </div>
                                   </div>
-                                </div>
-                            --}}
+                                --}}
+                            
  
-                         
-
                             <div class="col text-end align-self-center">
                                 <button type="submit" class="btn btn-secondary px-5">ENTRAR</button>
                             </div>

@@ -5,10 +5,23 @@ use Illuminate\Support\Facades\Route;
 
 //grupo de rotas para usuarios não autenticados
 Route::middleware('guest')->group(function(){
-     // Rota para a página de
 
+     // Rota para a página do formulario de login
      Route::get('/login',[AuthController::class,'login'])->name('login');
+
+     //rota para fazer os login dentro do sistema 
      Route::post('/login',[AuthController::class,'authenticate'])->name('authenticate');
+
+     //rota para o usuario se cadastrar, para que ele possa acessar
+     //se essa rota receber um get ela retorna o formulario 
+     //se receber um post ela grava os dados do usuario
+        
+     Route::get('/register',[AuthController::class,'register'])->name('register');
+
+     Route::post('/register',[AuthController::class,'store_user'])->name('store_user');
+
+     
+     
 });
 
 
