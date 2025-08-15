@@ -1,4 +1,10 @@
-<?php
+Pra usar os rrecursos basicos de auteticação do laravel eu preciso fazer com que o meu model 
+seja uma extenção de  uma classe especifica que vem desse namespace
+
+use Illuminate\Foundation\Auth\User as Authenticable;
+
+o model ficou assim 
+-----------------------------------------------------------------------------
 
 namespace App\Models;
 
@@ -25,3 +31,5 @@ class User extends Authenticable
     ];
 
 }
+------------------------------------------------------------------
+
