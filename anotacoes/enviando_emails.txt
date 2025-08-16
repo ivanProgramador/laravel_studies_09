@@ -1,0 +1,102 @@
+O Laravel tem uma classe que faz esse serviço de envio de emails para confirmação 
+o comando abaixo vai gerar ela pra mim, caso o app não tenha a apasta Mail ela será 
+gerada e dentro dela ficara oa ruivo reponsavel pelo codigo de envio 
+
+     php artisan make:mail newUserConfirmation
+
+estrutura
+---------------------------------------------------------------------------------------
+class newUserConfirmation extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    /**
+     * Create a new message instance.
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: 'New User Confirmation',
+        );
+    }
+
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'view.name',
+        );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
+    }
+}
+
+-------------------------------------------------------------------------------------------
+
+Para user uma classe dessse tipo primeiro eu tenho qqque colocar algumas variaveis publicas no metodo 
+construtor porque os outros metodos dela vão precisar usar na hora de definir o emial.
+
+coloquei essas duas variveis dentro do contrutor que vão servidor de tributos na hora de definir um
+email.
+
+public $username
+public $confirmation_link
+
+----------------------------------------------------------------
+ public function __construct(public $username, public $confirmation_link)
+    {
+        //
+    }
+---------------------------------------------------------------
+
+Metodo envelope tem bem defini dadoss importantes do email que seria 
+
+1- from (de quem esta vindo esse email)
+2- subject (qual é o assunto do email ) 
+
+------------------------------------------------------------------
+
+ public function envelope(): Envelope
+    {
+        return new Envelope(
+            from: new Address('laravel2@gmail.com', 'Laravel'),
+            subject: 'Confirmação de cadastro',
+        );
+    }
+
+------------------------------------------------------------------
+
+Agora no terceiro metodo eu faço configuração da view, essse metodo content  
+serve para retornar a interface qua cliente vai ver quando receber o email de confirmação 
+
+-----------------------------------------------------------------------
+public function content(): Content
+    {
+        return new Content(
+            view: 'mail.new_user_confirmation',
+        );
+    }
+----------------------------------------------------------------------------------
+comando para criar a view
+------------------------------------------------------------------------------
+php artisan make:view mail.new_user_confirmation
+--------------------------------------------------------------------------
+

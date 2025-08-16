@@ -7,7 +7,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use App\Mail\NewUserConfirmation;
 
 class AuthController extends Controller
 {
@@ -114,7 +116,8 @@ class AuthController extends Controller
       return view('auth.register');
    }
 
-   public function store_user(Request $request){
+   public function store_user(Request $request)
+   {
 
       $request->validate([
           'username' => 'required|string|min:3|max:30|unique:users,user_name',
@@ -122,10 +125,9 @@ class AuthController extends Controller
           'password' => [
           'required',
           'string',
-          'min:8',
+          'min:4',
           'max:32',
           'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,32}$/',
-          'confirmed'
           ],
       ], [
           'name.required' => 'O campo nome é obrigatório.',
@@ -154,9 +156,40 @@ class AuthController extends Controller
       $user->password = bcrypt($request->password);
       $user->token = Str::random(64); 
 
+      //gerando o link de confirmação
+      
+      $confirmation_link = route("new_user_confirmation",['token'=>$user->token]);
+
+      //enviando o email
+      $result = Mail::to($user->email)->send(new NewUserConfirmation($user->username, $confirmation_link));
+      
+      //testando se deu certo enviar o email
+      
+      if(!$result){
+         return back()->withInput()->with([
+            'server_error'=>'Ocorreu um erro ao enviar o emial de confirmação'
+         ]);
+      }
+
+      //criando o usuario na base
+      
+      $user->save();
+
+      //mostrar a view informando que o email foi enviado com sucesso
+      
+      return view('auth.email_sent',['email'=>$user->email]);
+
+       
 
 
    } 
+
+
+   public function new_user_confirmation($token)
+   {
+     return view('Mail.newUserConfirmation',['token'=>$token]);
+      
+   }
 
 
 

@@ -20,6 +20,12 @@ Route::middleware('guest')->group(function(){
 
      Route::post('/register',[AuthController::class,'store_user'])->name('store_user');
 
+     //confimação de novo usuario essa rota sera ativada de dentro do emial do novo usuario
+
+     Route::get('/new_user_confirmation',[AuthController::class,'new_user_confirmation'])->name('new_user_confirmation');
+
+
+
      
      
 });
