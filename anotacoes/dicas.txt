@@ -1,7 +1,39 @@
 
-se algum erro acontecer mnesmo com o codigo correto limpe o cache 
+se algum erro acontecer mesmo com o código correto limpe o cache 
 
 php artisan view:clear
 php artisan config:clear
 php artisan route:clear
 php artisan cache:clear
+
+correto de bug 
+ O sistema não estava eoicntando a view mas o erro não era dentro do metodo 'store_user'
+ o problema era dentro do componente 'newUserConfirmation.php' no metodo 'content()' 
+ ele estava porcurando aview dentro da pasta de view enquanto a view dele estava dentro da pasta Mail
+
+Errado
+--------------------------------------------------------------------------
+ /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'view.new_user_confirmation',
+        );
+    }
+
+-------------------------------------------------------------------------
+
+ corrigido 
+-------------------------------------------------------------------------------
+ /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'Mail.new_user_confirmation',
+        );
+    }
+--------------------------------------------------------------- 

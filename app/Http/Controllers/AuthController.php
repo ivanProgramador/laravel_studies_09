@@ -151,14 +151,14 @@ class AuthController extends Controller
       //definindo um novov usuario criando um topken de email
       
       $user = new User();
-      $user->username = $request->username;
+      $user->user_name = $request->username;
       $user->email = $request->email;
       $user->password = bcrypt($request->password);
       $user->token = Str::random(64); 
 
       //gerando o link de confirmação
       
-      $confirmation_link = route("new_user_confirmation",['token'=>$user->token]);
+      $confirmation_link = route("new_user_confirmation",['token' => $user->token]);
 
       //enviando o email
       $result = Mail::to($user->email)->send(new NewUserConfirmation($user->username, $confirmation_link));
@@ -187,7 +187,7 @@ class AuthController extends Controller
 
    public function new_user_confirmation($token)
    {
-     return view('Mail.newUserConfirmation',['token'=>$token]);
+     echo 'Metodo de confirmação';
       
    }
 

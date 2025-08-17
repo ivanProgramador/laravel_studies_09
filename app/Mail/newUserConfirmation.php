@@ -40,7 +40,7 @@ class newUserConfirmation extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.new_user_confirmation',
+            view: 'Mail.new_user_confirmation',
         );
     }
 

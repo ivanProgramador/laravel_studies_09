@@ -22,7 +22,7 @@ Route::middleware('guest')->group(function(){
 
      //confimação de novo usuario essa rota sera ativada de dentro do emial do novo usuario
 
-     Route::get('/new_user_confirmation',[AuthController::class,'new_user_confirmation'])->name('new_user_confirmation');
+     Route::get('/new_user_confirmation/{token}',[AuthController::class,'new_user_confirmation'])->name('new_user_confirmation');
 
 
 
