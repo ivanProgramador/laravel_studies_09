@@ -1,0 +1,12 @@
+A pagina home é um abiebte onde o usuario vai poder acessar as funcionalidades do sistema,
+no caso como se trata de um sistema de autenticação ele tera as funções de
+
+1 - editar a senha 
+2 - fazer o logout
+3 - excluir a conta  
+
+Nesse caso para fazer isso eu uso um novo controller, que seria o "MainController" isso 
+serve para separar os contextos dentro do sistema.
+
+
+
