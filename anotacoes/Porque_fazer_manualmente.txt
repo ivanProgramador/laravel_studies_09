@@ -87,6 +87,73 @@ Rodando o seed pra gerar os usuarios
   php artisan db:seed --class UsersTableSeeder
 
 --------------------------------------------------------------------------------
+Embora eu tenha usado os seeds para adicionar usuarios, para que ele seja um sistema funcional 
+eu preciso permitir qua outras pessoas se cadastrem nele para isso eu preciso definir as rotas,
+rotas.
+
+As rotas desse sistema estão divididas em 2 grupos o grupo guest como nome já diz são rotas para convidados,
+pessoas que o sistema não conhece um usuario visitante deve ter acesso a 
+
+1 - tela de login 
+2 - tela de registro 
+3 - recuperação de senha
+
+Então esse éo grupo de rotas "guest"
+
+//grupo de rotas para usuarios não autenticados
+Route::middleware('guest')->group(function(){
+
+     // Rota para a página do formulario de login
+     Route::get('/login',[AuthController::class,'login'])->name('login');
+
+     //rota para fazer os login dentro do sistema 
+     Route::post('/login',[AuthController::class,'authenticate'])->name('authenticate');
+
+     //rota para o usuario se cadastrar, para que ele possa acessar
+     //se essa rota receber um get ela retorna o formulario 
+     //se receber um post ela grava os dados do usuario
+        
+     Route::get('/register',[AuthController::class,'register'])->name('register');
+
+     Route::post('/register',[AuthController::class,'store_user'])->name('store_user');
+
+     //confimação de novo usuario essa rota sera ativada de dentro do emial do novo usuario
+
+     Route::get('/new_user_confirmation/{token}',[AuthController::class,'new_user_confirmation'])->name('new_user_confirmation');
+
+
+});
+
+
+O segundo grupo tem as rotas do  tipo "Auth" para usuarios que o sistema conhece, usuarios quando 
+colocam senha e login geram uma sessão, e essa sessão é testada pelo middleware "Auth" sel ela não existir 
+ele vai redirecionarr ele para tela de login.
+
+até aqui so tem uma rota de logout 
+
+Route::middleware('auth')->group(function(){
+    
+    Route::get('/', function () {
+       echo 'ola mundo';
+    })->name('home');
+
+    Route::get('/logout',[AuthController::class,'logout'])->name('logout');
+
+});
+
+
+-----------------------------------------------------------------------------------------------------------
+confirmação de email
+
+1 - o usuario se cadastra então ele vai apara uma view que avisa que enviu um emial pra ele com um link 
+    de confirmação com o token 
+    http://localhost/laravel_studies_09/public/new_user_confirmation/UDqDQlK0C2W6Fid6HGoGzoaDfJvmNCC6xJ7OVSJLVZsHEqWa85PVJIj54peKBO16
+     
+2 - 
+
+
+
+
 
 
 

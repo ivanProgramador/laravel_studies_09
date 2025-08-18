@@ -25,9 +25,6 @@ Route::middleware('guest')->group(function(){
      Route::get('/new_user_confirmation/{token}',[AuthController::class,'new_user_confirmation'])->name('new_user_confirmation');
 
 
-
-     
-     
 });
 
 

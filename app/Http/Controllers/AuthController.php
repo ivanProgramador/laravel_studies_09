@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\NewUserConfirmation;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -187,8 +188,45 @@ class AuthController extends Controller
 
    public function new_user_confirmation($token)
    {
-     echo 'Metodo de confirmação';
+      //verificando se o token recebido é valido
+      //aqui eu faço um select que busca por um token igual esse 
+      //dentro da base de dados porque sele conseguiu cehgar na fase de confirmar o amail
+      //o cadastro existe
+
+      $user = User::where('token',$token)->first(); 
       
+       //se não existir não vem nenhum usuario e eo cliente vai voltar parar o login 
+
+       if(!$user){
+           return redirect()->route('login');
+       }
+
+       //se sim eu tenho que preencehr a data/hora de verificação
+       
+       $user->email_verified_at = Carbon::now(); 
+
+       //e apagar o toekn que ele usou pra confirmar 
+       
+       $user->token = null;
+
+       //ativar o usuario 
+
+       $user->active = true;
+       
+       //salvando o usuario com as informações atualizadas
+       
+       $user->save();
+
+       //logando o usuario no sistema 
+
+       Auth::login($user);
+
+       //view de boas vindas 
+
+       return view('auth.new_user_confirmation');
+
+
+           
    }
 
 
