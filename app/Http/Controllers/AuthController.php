@@ -230,6 +230,14 @@ class AuthController extends Controller
    }
 
 
+   public function profile():view
+   {
+
+      return view('auth.profile');
+       
+   }
+
+
 
 
     
