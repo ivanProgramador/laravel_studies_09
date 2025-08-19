@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 use App\Mail\NewUserConfirmation;
 use Carbon\Carbon;
 
+use function Laravel\Prompts\password;
+
 class AuthController extends Controller
 {
     public function login():View
@@ -239,7 +241,73 @@ class AuthController extends Controller
 
    public function change_password(Request $request ){
 
-      echo 'change password';
+        $request->validate([
+        'current_password' => 'required',
+        'new_password' => [
+            'required',
+            'string',
+            'min:8',
+            'max:32',
+            'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,32}$/',
+            'confirmed',
+            'different:current_password',
+        ],
+    ], [
+        'current_password.required' => 'Informe sua senha atual.',
+        'new_password.required' => 'Informe a nova senha.',
+        'new_password.min' => 'A nova senha deve ter no mínimo :min caracteres.',
+        'new_password.max' => 'A nova senha deve ter no máximo :max caracteres.',
+        'new_password.regex' => 'A nova senha deve conter letras maiúsculas, minúsculas e números.',
+        'new_password.confirmed' => 'A confirmação da nova senha não confere.',
+        'new_password.different' => 'A nova senha deve ser diferente da atual.',
+    ]);
+
+    //testando se a senha atual esta correta
+    //o susurio esta logado e gerou uma sessão por issso não preciso consultar a base
+    //pra testar a senha atual  
+    
+    if(!password_verify($request->current_password,Auth::user()->password)){
+      return back()->with([
+         'server_error'=>'A senha atual está errada'
+      ]);
+   }
+
+   //agora qque ele passou pela validação e a senha atual esta certa
+   //eu vou atualizar a senha dele
+   
+   $user = User::find(Auth::id());
+   $user->password = bcrypt($request->new_password);
+   $user->save();
+
+   //ataualizar a senha na sessão porque se o usuarrio queiser alterara denovo enquanto esta logado 
+   //o profile vai diezer qua senha esta errada 
+
+
+   Auth::user()->password = $request->new_password;
+
+   
+
+   //avisando aoa usuario que a senha foi alterada com sucesso 
+
+   return redirect()->route('profile')->with([
+      'success'=>'A senha foi ataualizada com sucesso !'
+   ]);
+
+
+
+
+   
+   
+
+
+    
+
+
+
+
+
+
+
        
    }
 
