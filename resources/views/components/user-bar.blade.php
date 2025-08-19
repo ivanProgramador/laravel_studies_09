@@ -1,7 +1,7 @@
 <div class="container-fluid bg-black">
     <div class="row">
         <div class="col p-3">
-           <a href="{{ route('route') }}">
+           <a href="{{ route('home') }}">
               <img src="{{ asset('assets/images/logo.png') }}" alt="Logo">
            </a> 
             

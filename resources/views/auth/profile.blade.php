@@ -1,28 +1,40 @@
 <x-layouts.main-layout pageTitle="Profile">
+ <x-user-bar></x-user-bar>
 
-     <div class="container mt-5">
+ <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-6">
                     <p class="display-6">DEFINIR NOVA SENHA</p>
 
-                    <form action="#" method="post">
+                    <form action="{{ route('change_password') }}" method="post">
+                        @csrf
 
                         <div class="mb-3">
                             <label for="current_password" class="form-label">A sua senha atual</label>
                             <input type="password" class="form-control" id="current_password" name="current_password">
-                            <div class="text-danger">[mensagem de erro]</div>
+
+                            @error('current_password')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                            
                         </div>
 
                         <div class="mb-3">
                             <label for="new_password" class="form-label">Defina a nova senha</label>
                             <input type="password" class="form-control" id="new_password" name="new_password">
-                            <div class="text-danger">[mensagem de erro]</div>
+
+                            @error('new_password')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="new_password_confirmation" class="form-label">Confirmar a nova senha</label>
                             <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation">
-                            <div class="text-danger">[mensagem de erro]</div>
+
+                             @error('new_password_confirmation')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="row mt-4">
@@ -33,13 +45,17 @@
 
                     </form>
 
-                    <div class="alert alert-danger text-center mt-3">
-                        [mensagem de erro]
-                    </div>
+                    @if(session('server_error'))
+                         <div class="alert alert-danger text-center mt-3">
+                             {{ session('server_error') }}
+                         </div>
+                    @endif
+
+                   
 
             </div>
         </div>
     </div>
 
 
-<x-layouts.main-layout >
+</x-layouts.main-layout >
