@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\NewUserConfirmation;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\View as FacadesView;
 
 use function Laravel\Prompts\password;
 
@@ -287,29 +288,53 @@ class AuthController extends Controller
 
    
 
-   //avisando aoa usuario que a senha foi alterada com sucesso 
+   //avisando ao usuario que a senha foi alterada com sucesso 
 
    return redirect()->route('profile')->with([
-      'success'=>'A senha foi ataualizada com sucesso !'
+      'success'=>'A senha foi atualizada com sucesso !'
    ]);
 
-
-
-
-   
-   
-
-
-    
-
-
-
-
-
-
-
-       
    }
+
+
+   public function forgot_password():View
+   {
+       return view('auth.forgot_password');
+   }
+
+   public function send_reset_password_link(Request $request){
+
+      //validando o formulario 
+
+      $request->validate([
+         'email'=>'required|email'
+      ],
+      [
+         'email.required'=>'O email é obrigatório',
+         'email.email'=>'digite um endereço de email valido '
+      ]
+     );
+
+     
+
+     //verificando se o email existe
+
+     $user = User::where('email',$request->email)->first();
+     if(!$user){
+        return back()->with([
+           'server_message'=>'Verifique seu email para continuar o processo de recuperação'
+        ]);
+     }
+
+
+     
+     
+
+      
+
+   }
+
+   
 
 
 

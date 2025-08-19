@@ -35,12 +35,12 @@
                                   <div class="mb-3">
                                      <a href="{{ route('register') }}">Não tenho conta de usuário</a>
                                   </div>
-                                {{-- 
+                                
                                    <div>
-                                       <a href="#">Esqueci a minha senha</a>
+                                       <a href="{{ route('forgot_password') }}">Esqueci a minha senha</a>
                                     </div>
                                   </div>
-                                --}}
+                                
                             
  
                             <div class="col text-end align-self-center">
