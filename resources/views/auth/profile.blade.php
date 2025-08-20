@@ -57,6 +57,31 @@
                          </div>
                     @endif
 
+                    <hr>
+
+                    <div class="card card-border-1 border-danger p-5 text-center mt-3" >
+                         Caso precise elimirnar sua conta de forma permanente,
+                         siga os 2 passos abaixo 
+                         <br>
+                         1 - escreva a palavra "ELIMINAR" no campo abaixo.<br>
+                         2 - clique no botão abaixo     
+                    
+
+                    <form action="{{ route('delete_account') }}" method="post">
+                        @csrf 
+                        <div class="my-3">
+                            <input type="text" class="form-control text-center" name="delete_confirmation">
+                            @error('delete_confirmation')
+                               {{ $message }}
+                            @enderror
+                        </div>
+                        <button type="submit" class="btn btn-danger">Eliminar conta</button>
+                    </form>
+
+                    </div>
+
+
+
                    
 
             </div>

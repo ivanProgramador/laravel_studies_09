@@ -410,15 +410,21 @@ class AuthController extends Controller
     return redirect()->route('login')->with([
        'success'=>true
     ]);
+   }
 
+   public function delete_account(Request $request)
+   {
+      $request->validate(
+         [
+           'delete_confirmation'=>'required|in:ELIMINAR'
+         ],
+         [
+            'delete_confirmation.required'=>'A confirmação é obrigatória',
+            'delete_confirmation.in'=>'É necessário escrever  a palavra ELIMINAR'
+         ]);
 
-
-
-   
-
-    
-
-  }
+         echo'OK';
+   }
 
    
 
