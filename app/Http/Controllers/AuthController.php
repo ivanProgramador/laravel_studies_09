@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\NewUserConfirmation;
+use App\Mail\ResetPassword;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View as FacadesView;
 
@@ -315,21 +316,56 @@ class AuthController extends Controller
       ]
      );
 
-     
+     $generic_message ='';
 
      //verificando se o email existe
 
      $user = User::where('email',$request->email)->first();
+
      if(!$user){
         return back()->with([
            'server_message'=>'Verifique seu email para continuar o processo de recuperação'
         ]);
      }
 
+     //gerando o link de autenticação 
 
-     
-     
+     $user->token = Str::random(64);
 
+     $token_link = route('reset_password',['token'=>$user->token]);
+
+     //mandando o link pelo email pra recuperar a senha 
+
+     $result = Mail::to($user->email)->send(new ResetPassword($user->username,$token_link));
+
+     //verifcando se o email foi enviado
+     
+      if(!$result){
+        return back()->with([
+           'server_message'=>'Verifique seu email para continuar o processo de recuperação'
+        ]);
+     }
+
+     //gravando o token na base de dados
+     
+     $user->save();
+
+
+     return back()->with([
+           'server_message'=>'Verifique seu email para continuar o processo de recuperação'
+     ]);
+   }
+
+   public function reset_password($token)
+   {
+      //testando se o token é valido 
+      $user = User::where('token',$token)->first();
+
+      if(!$user){
+         return redirect()->route('login');
+      }
+
+      return view('auth.reset_password',['token' => $token]);
       
 
    }

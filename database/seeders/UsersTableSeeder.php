@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
          for($index = 1;$index <= 3; $index++){
          
          User::create([
+            
              'user_name'=>"user$index",
              'email'=>"user$index@gmail.com",
              'password'=>bcrypt('Aa123456'),
