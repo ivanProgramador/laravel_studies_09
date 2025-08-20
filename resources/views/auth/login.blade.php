@@ -54,7 +54,16 @@
                         <div class="alert alert-danger text-center mt-3">
                            {{ session('invalid_login') }}
                        </div>
-                    @endif
+                     @endif
+
+                     @if(session('success'))
+                         <p class="mt-3 alert alert-success txt-center p-2">
+                            Senha redefinida com sucesso
+                         </p>
+                     
+                     @endif
+
+
                      
 
                    

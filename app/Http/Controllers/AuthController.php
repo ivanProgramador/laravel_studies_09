@@ -356,7 +356,7 @@ class AuthController extends Controller
      ]);
    }
 
-   public function reset_password($token)
+   public function reset_password($token):view | RedirectResponse
    {
       //testando se o token é valido 
       $user = User::where('token',$token)->first();
@@ -369,6 +369,56 @@ class AuthController extends Controller
       
 
    }
+
+  public function reset_password_update(Request $request):RedirectResponse
+  {
+
+    $request->validate([
+
+        'token' => 'required',
+        'new_password'=>[
+            'required',
+            'string',
+            'min:8',
+            'max:32',
+            'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,32}$/',
+            'confirmed',
+            'different:current_password',
+        ],
+        [
+        'token.required' => 'Token de redefinição é obrigatório.',
+        'new_password.required' => 'Informe a nova senha.',
+        'new_password.min' => 'A nova senha deve ter no mínimo :min caracteres.',
+        'new_password.max' => 'A nova senha deve ter no máximo :max caracteres.',
+        'new_password.confirmed' => 'A confirmação da nova senha não confere.',
+     ]
+     ]);
+
+     //verificando se o token é valido 
+    $user = User::where('token',$request->token)->first();
+
+    if(!$user){
+         return redirect()->route('login');
+    }
+
+    //atualizando a senha e invalidando o token
+    
+    $user->password = bcrypt($request->new_password);
+    $user->token = null;
+    $user->save();
+
+    return redirect()->route('login')->with([
+       'success'=>true
+    ]);
+
+
+
+
+   
+
+    
+
+  }
 
    
 
