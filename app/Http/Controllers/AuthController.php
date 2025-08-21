@@ -423,7 +423,21 @@ class AuthController extends Controller
             'delete_confirmation.in'=>'É necessário escrever  a palavra ELIMINAR'
          ]);
 
-         echo'OK';
+         //Removendo  a conta com soft delete 
+         $user = Auth::user();
+         $user->delete();
+
+         //removendo a conta com hard delete 
+         //$user = Auth::user();
+         //$user->forceDelete();
+
+         //logout 
+         Auth::logout();
+
+         //redirecionando para o login 
+         return redirect()->route('login')->with(['account_deleted'=>true]);
+
+         
    }
 
    

@@ -32,9 +32,7 @@ Route::middleware('guest')->group(function(){
      Route::get('/reset_password/{token}',[AuthController::class,'reset_password'])->name('reset_password');
      Route::post('/reset_password/{token}',[AuthController::class,'reset_password_update'])->name('reset_password_update');
 
-     //deletar a conta
-     
-     Route::post('/delete_account',[AuthController::class,'delete_account'])->name('delete_account');
+    
 
 });
 
@@ -53,6 +51,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/profile',[AuthController::class,'profile'])->name('profile');
 
     Route::post('/profile',[AuthController::class,'change_password'])->name('change_password');
+
+     //deletar a conta
+     
+     Route::post('/delete_account',[AuthController::class,'delete_account'])->name('delete_account');
 
     
 

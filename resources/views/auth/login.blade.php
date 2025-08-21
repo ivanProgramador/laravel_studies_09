@@ -63,6 +63,15 @@
                      
                      @endif
 
+                      @if(session('account_deleted'))
+                         <p class="mt-3 alert alert-success txt-center p-2">
+                            Conta excluida com sucesso 
+                         </p>
+                     
+                     @endif
+
+
+
 
                      
 
